@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Expression list</title>
+</head>
+<body>
+<h2>Expressions</h2>
+<table border="solid 2px">
+    <thead>
+    <tr>
+        <th>Term</th>
+        <th>Answer</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--/*@thymesVar id="expressionList" type="java.util.List<com.example.task.model.Expression>"*/-->
+    <tr th:if="${expressionList.isEmpty}">
+        <td colspan="2"> No math expressions available</td>
+    </tr>
+    <tr th:each="expression : ${expressionList}">
+        <td><span th:text="${expression.term}">Term</span></td>
+        <td><span th:text="${expression.answer}">Answer</span></td>
+        <td>
+            <form th:method="GET" th:action="@{/expressions/{id}/edit(id=${expression.id})}">
+                <input type="submit" value="Edit"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="DELETE" th:action="@{/expressions/{id}(id=${expression.id})}">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<hr/>
+<a href="/expressions/new">Add new expression</a>
+<br/>
+<a href="/expressions/search">Search expressions</a>
+</body>
+</html>

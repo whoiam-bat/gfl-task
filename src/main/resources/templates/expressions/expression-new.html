@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New expression</title>
+</head>
+<body>
+<!--/*@thymesVar id="newExpression" type="com.example.task.model.Expression"*/-->
+<form th:method="POST" th:action="@{/expressions}" th:object="${newExpression}">
+    <label for="expression">Input expression: </label>
+    <input type="text" th:field="*{term}" id="expression"/>
+    <div style="color: red;" th:if="${#fields.hasErrors('term')}" th:errors="*{term}">Error expression input</div>
+    <br/>
+
+    <input type="submit" value="Add" />
+</form>
+</body>
+</html>

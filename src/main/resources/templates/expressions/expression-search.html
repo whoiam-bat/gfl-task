@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search</title>
+</head>
+<body>
+    <form th:method="POST" th:action="@{/expressions/search}">
+        <label for="answer">Search by answer: </label>
+        <input type="text" id="answer" name="answer" placeholder="Input answer"/>
+        <br/>
+        <label for="searchType">Chose searching type: </label>
+        <select id="searchType" name="searchType">
+            <option value="0">By answer</option>
+            <option value="-1">Less than answer</option>
+            <option value="1">Greater than answer</option>
+        </select>
+        <br/>
+
+        <input type="submit" value="Search"/>
+    </form>
+
+    <!--/*@thymesVar id="expressionsFounded" type="java.util.List<com.example.task.model.Expression>"*/-->
+    <div th:if="${expressionsFounded}">
+        <hr/>
+        <h2>Expression list</h2>
+        <div th:each="expression : ${expressionsFounded}">
+            <p th:text="|${expression.term} = ${expression.answer}|"></p>
+        </div>
+    </div>
+    <hr/>
+
+    <a href="/expressions">To main page</a>
+</body>
+</html>
