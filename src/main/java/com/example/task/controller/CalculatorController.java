@@ -33,7 +33,8 @@ public class CalculatorController {
     }
 
     @GetMapping("/new")
-    public String newExpression(@ModelAttribute Expression expression) {
+    public String newExpression(Model model) {
+        model.addAttribute("newExpression", new Expression());
         return "expressions/expression-new";
     }
 

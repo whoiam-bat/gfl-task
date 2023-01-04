@@ -54,7 +54,7 @@ public class ExpressionSolver {
         StringBuilder current = new StringBuilder();
         Stack<Character> stack = new Stack<>();
 
-        int priority = 0;
+        int priority;
         for (int i = 0; i < term.length(); i++) {
             priority = getPriority(term.charAt(i));
 
