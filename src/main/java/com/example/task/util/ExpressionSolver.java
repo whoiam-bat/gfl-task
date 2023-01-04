@@ -3,6 +3,7 @@ package com.example.task.util;
 import com.example.task.model.Expression;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.Stack;
 
 @Component
@@ -13,7 +14,7 @@ public class ExpressionSolver {
 
         String prepared = prepareException(term);
         String polishNotation = expressionToPolishNotation(prepared);
-        String answer = String.valueOf(polishNotationToAnswer(polishNotation));
+        BigDecimal answer = BigDecimal.valueOf(polishNotationToAnswer(polishNotation));
         expression.setAnswer(answer);
     }
 

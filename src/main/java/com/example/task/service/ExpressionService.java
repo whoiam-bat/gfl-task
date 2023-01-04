@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,15 +38,15 @@ public class ExpressionService {
         return repository.findByTerm(term);
     }
 
-    public List<Expression> findAllByAnswer(String answer) {
+    public List<Expression> findAllByAnswer(BigDecimal answer) {
         return repository.findAllByAnswer(answer);
     }
 
-    public List<Expression> findAllByAnswerLessThan(String answer) {
+    public List<Expression> findAllByAnswerLessThan(BigDecimal answer) {
         return repository.findAllByAnswerLessThan(answer);
     }
 
-    public List<Expression> findAllByAnswerGreaterThan(String answer) {
+    public List<Expression> findAllByAnswerGreaterThan(BigDecimal answer) {
         return repository.findAllByAnswerGreaterThan(answer);
     }
 

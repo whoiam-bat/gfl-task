@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -83,10 +84,8 @@ public class CalculatorController {
     }
 
     @PostMapping("/search")
-    public String doSearch(@RequestParam(name = "answer") String answer,
+    public String doSearch(@RequestParam(name = "answer") BigDecimal answer,
                            @RequestParam(name = "searchType") String searchType, Model model) {
-        answer = String.valueOf(Double.valueOf(answer));
-
         List<Expression> expressionList = new LinkedList<>();
 
         if(searchType.equals("0")) expressionList = expressionService.findAllByAnswer(answer);

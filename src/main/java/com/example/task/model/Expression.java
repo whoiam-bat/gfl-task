@@ -1,6 +1,7 @@
 package com.example.task.model;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "expression")
@@ -15,12 +16,12 @@ public class Expression {
     private String term;
 
     @Column(name = "answer")
-    private String answer;
+    private BigDecimal answer;
 
     public Expression() {
     }
 
-    public Expression(String term, String answer) {
+    public Expression(String term, BigDecimal answer) {
         this.term = term;
         this.answer = answer;
     }
@@ -41,11 +42,11 @@ public class Expression {
         this.term = term;
     }
 
-    public String getAnswer() {
+    public BigDecimal getAnswer() {
         return answer;
     }
 
-    public void setAnswer(String answer) {
+    public void setAnswer(BigDecimal answer) {
         this.answer = answer;
     }
 
