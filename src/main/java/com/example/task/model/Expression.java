@@ -16,7 +16,7 @@ import javax.persistence.Id;
 public class Expression {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String term;
-    private double answer;
+    private Double answer;
 }

@@ -29,9 +29,9 @@ public class ExpressionValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Expression expression = (Expression) target;
 
-        if (expressionService.findByTerm(expression.getTerm()).isPresent()) {
+        if (expressionService.findByTerm(expression.getTerm()).isPresent())
             errors.rejectValue("term", "", "Such expression already exists");
-        }
+
         if (!validateBrackets(expression.getTerm()))
             errors.rejectValue("term", "", "Incorrect brackets input");
 

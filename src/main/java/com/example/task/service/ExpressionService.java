@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional(readOnly = true)
 public class ExpressionService {
 
     private final ExpressionRepository repository;
