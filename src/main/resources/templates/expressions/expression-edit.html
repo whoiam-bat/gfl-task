@@ -9,7 +9,7 @@
     <!--/*@thymesVar id="expressionToEdit" type="com.example.task.model.Expression"*/-->
     <form th:method="PATCH" th:action="@{/expressions/{id}(id=${expressionToEdit.id})}" th:object="${expressionToEdit}">
         <label for="term">Term: </label>
-        <input type="text" th:field="*{term}" id="term" />
+        <input th:field="*{term}" id="term" />
         <div style="color:red;" th:if="${#fields.hasErrors('term')}" th:errors="*{term}">Error expression input</div>
         <br/>
         <input type="submit" value="Edit" />

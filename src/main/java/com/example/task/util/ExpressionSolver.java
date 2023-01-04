@@ -13,7 +13,7 @@ public class ExpressionSolver {
 
         String prepared = prepareException(term);
         String polishNotation = expressionToPolishNotation(prepared);
-        String answer = String.valueOf(polishNotationToAnswer(polishNotation));
+        double answer = polishNotationToAnswer(polishNotation);
         expression.setAnswer(answer);
     }
 
@@ -112,10 +112,12 @@ public class ExpressionSolver {
     }
 
     private int getPriority(char ch) {
-        if (ch == '*' || ch == '/') return 3;
-        else if (ch == '+' || ch == '-') return 2;
-        else if (ch == '(') return 1;
-        else if (ch == ')') return -1;
-        else return 0;
+        return switch (ch) {
+            case '*', '/' -> 3;
+            case '+', '-' -> 2;
+            case '(' -> 1;
+            case ')' -> -1;
+            default -> 0;
+        };
     }
 }

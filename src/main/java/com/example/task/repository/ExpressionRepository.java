@@ -12,9 +12,9 @@ public interface ExpressionRepository extends JpaRepository<Expression, Integer>
 
     Optional<Expression> findByTerm(String term);
 
-    List<Expression> findAllByAnswer(String answer);
+    List<Expression> findAllByAnswer(double answer);
 
-    List<Expression> findAllByAnswerLessThan(String answer);
+    List<Expression> findAllByAnswerLessThan(double answer);
 
-    List<Expression> findAllByAnswerGreaterThan(String answer);
+    List<Expression> findAllByAnswerGreaterThan(double answer);
 }

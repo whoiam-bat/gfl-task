@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,22 +38,21 @@ public class ExpressionService {
         return repository.findByTerm(term);
     }
 
-    public List<Expression> findAllByAnswer(String answer) {
+    public List<Expression> findAllByAnswer(double answer) {
         return repository.findAllByAnswer(answer);
     }
 
-    public List<Expression> findAllByAnswerLessThan(String answer) {
+    public List<Expression> findAllByAnswerLessThan(double answer) {
         return repository.findAllByAnswerLessThan(answer);
     }
 
-    public List<Expression> findAllByAnswerGreaterThan(String answer) {
+    public List<Expression> findAllByAnswerGreaterThan(double answer) {
         return repository.findAllByAnswerGreaterThan(answer);
     }
 
     @Transactional
     public void save(Expression expression) {
         expressionSolver.solveExpression(expression);
-
         repository.save(expression);
     }
 
@@ -60,7 +60,6 @@ public class ExpressionService {
     public void update(int id, Expression updateExpression) {
         updateExpression.setId(id);
         expressionSolver.solveExpression(updateExpression);
-
         repository.save(updateExpression);
     }
 
@@ -69,4 +68,12 @@ public class ExpressionService {
         repository.deleteById(id);
     }
 
+    public List<Expression> findByAnswer(double answer, String searchType) {
+        return switch (searchType) {
+            case "byAnswer" -> findAllByAnswer(answer);
+            case "lessAnswer" -> findAllByAnswerLessThan(answer);
+            case "greaterAnswer" -> findAllByAnswerGreaterThan(answer);
+            default -> Collections.emptyList();
+        };
+    }
 }

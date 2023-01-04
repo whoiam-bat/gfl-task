@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Controller
@@ -17,7 +16,6 @@ import java.util.List;
 public class CalculatorController {
 
     private final ExpressionValidator expressionValidator;
-
     private final ExpressionService expressionService;
 
     @Autowired
@@ -27,7 +25,7 @@ public class CalculatorController {
         this.expressionService = expressionService;
     }
 
-    @GetMapping()
+    @GetMapping
     public String expressionList(Model model) {
         model.addAttribute("expressionList", expressionService.findAll());
 
@@ -41,8 +39,8 @@ public class CalculatorController {
         return "expressions/expression-new";
     }
 
-    @PostMapping()
-    public String addExpressionForm(@ModelAttribute("newExpression") Expression expression, BindingResult bindingResult) {
+    @PostMapping
+    public String addExpressionForm(Expression expression, BindingResult bindingResult) {
         expressionValidator.validate(expression, bindingResult);
 
         if (bindingResult.hasErrors()) return "expressions/expression-new";
@@ -52,21 +50,21 @@ public class CalculatorController {
     }
 
     @GetMapping("/{id}/edit")
-    public String editExpression(@PathVariable("id") int id, Model model) {
+    public String editExpression(@PathVariable int id, Model model) {
         model.addAttribute("expressionToEdit", expressionService.findOne(id));
 
         return "expressions/expression-edit";
     }
 
     @PatchMapping("/{id}")
-    public String editExpressionForm(@ModelAttribute("expressionToEdit") Expression expression, BindingResult bindingResult,
-                                     @PathVariable("id") int id) {
-        expressionValidator.validate(expression, bindingResult);
+    public String editExpressionForm(Expression expression,
+                                     BindingResult bindingResult,
+                                     @PathVariable int id) {
 
+        expressionValidator.validate(expression, bindingResult);
         if (bindingResult.hasErrors()) return "expressions/expression-edit";
 
         expressionService.update(id, expression);
-
         return "redirect:/expressions";
     }
 
@@ -83,18 +81,12 @@ public class CalculatorController {
     }
 
     @PostMapping("/search")
-    public String doSearch(@RequestParam(name = "answer") String answer,
-                           @RequestParam(name = "searchType") String searchType, Model model) {
-        answer = String.valueOf(Double.valueOf(answer));
+    public String doSearch(@RequestParam double answer,
+                           @RequestParam String searchType,
+                           Model model) {
 
-        List<Expression> expressionList = new LinkedList<>();
-
-        if(searchType.equals("0")) expressionList = expressionService.findAllByAnswer(answer);
-        else if(searchType.equals("-1")) expressionList = expressionService.findAllByAnswerLessThan(answer);
-        else if(searchType.equals("1")) expressionList = expressionService.findAllByAnswerGreaterThan(answer);
-
+        List<Expression> expressionList = expressionService.findByAnswer(answer, searchType);
         model.addAttribute("expressionsFounded", expressionList);
-
         return "expressions/expression-search";
     }
 }
