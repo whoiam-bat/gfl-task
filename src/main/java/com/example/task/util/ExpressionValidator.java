@@ -29,16 +29,17 @@ public class ExpressionValidator implements Validator {
     public void validate(Object target, Errors errors) {
         Expression expression = (Expression) target;
 
-        if (expressionService.findByTerm(expression.getTerm()).isPresent())
+        String term = expression.getTerm();
+        if (expressionService.findByTerm(term).isPresent())
             errors.rejectValue("term", "", "Such expression already exists");
 
-        if (!validateBrackets(expression.getTerm()))
+        if (!validateBrackets(term))
             errors.rejectValue("term", "", "Incorrect brackets input");
 
-        if (!validateMathOperators(expression.getTerm()))
+        if (!validateMathOperators(term))
             errors.rejectValue("term", "", "Incorrect math operators input");
 
-        if (validateThirdPartyCharacters(expression.getTerm()))
+        if (validateStringRegex("[^\\d*/+\\-()]", term))
             errors.rejectValue("term", "", "Incorrect character in expression");
     }
 
@@ -54,28 +55,15 @@ public class ExpressionValidator implements Validator {
     }
 
     private boolean validateMathOperators(String expression) {
-        Pattern incorrectOperators = Pattern.compile("[-+/*]{2}");
-        Pattern correctOperators = Pattern.compile("(/[-+])|(\\*[-+])|([-+]{2})");
-
-        Matcher incorrectMatcher = incorrectOperators.matcher(expression);
-        Matcher correctMatcher = correctOperators.matcher(expression);
-
-        boolean isValid = false;
-
-        if (incorrectMatcher.find()) {
-            if (correctMatcher.find()) {
-                isValid = true;
-            }
-        } else {
-            isValid = true;
+        if (validateStringRegex("[-+/*]{2}", expression)) {
+            return validateStringRegex("(/[-+])|(\\*[-+])|([-+]{2})", expression);
         }
-        return isValid;
+        return true;
     }
 
-    private boolean validateThirdPartyCharacters(String expression) {
-        Pattern pattern = Pattern.compile("[^\\d*/+\\-()]");
-        Matcher matcher = pattern.matcher(expression);
-
+    private boolean validateStringRegex(String regex, String string) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(string);
         return matcher.find();
     }
 }
