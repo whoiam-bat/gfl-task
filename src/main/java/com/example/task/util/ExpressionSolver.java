@@ -38,7 +38,6 @@ public class ExpressionSolver {
                         if (getPriority(term.charAt(j)) == 0)
                             preparedExpression.append(term.charAt(j));
                         else break;
-
                     }
                     i = j;
                     preparedExpression.append(')');
